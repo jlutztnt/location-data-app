@@ -1,0 +1,23 @@
+curl --request POST \
+  --url 'https://prod-39.westus.logic.azure.com:443/workflows/d8745b7bc39a4fa7be50363bd61fca6f/triggers/manual/paths/invoke?api-version=2016-06-01&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=5F6pnGqCkPLoZ2rftoPd2_FRECzU_QvnZOMRqePu7qc' \
+  --header 'Auth: 1d3f9062-3868-43d2-8291-4597908877ef' \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "to": "recipient@example.com",
+  "cc": "cc@example.com",
+  "bcc": "bcc@example.com",
+  "from": "sender@example.com",
+  "from_name": "Sender Name",
+  "reply_to": "replyto@example.com",
+  "subject": "Email Subject",
+  "body": "This is the email body.",
+  "body_html": "<p>This is the <strong>HTML</strong> email body.</p>",
+  "attachments": [
+    {
+      "filename": "document.pdf",
+      "content_type": "application/pdf",
+      "content": "base64-encoded-content"
+    }
+  ],
+  "priority": "normal"
+}'

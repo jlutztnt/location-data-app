@@ -1,0 +1,3 @@
+name,description,website,phone,email,category,street,city,state,zipCode
+"Sample Business A","Description for Business A","https://example.com/a","123-456-7890","contact@examplea.com","retail","123 Main St","Anytown","CA","90210"
+"Sample Business B","Another description","https://example.com/b","987-654-3210","info@exampleb.com","food_service","456 Oak Ave","Otherville","NY","10001"

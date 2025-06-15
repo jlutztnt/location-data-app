@@ -1,0 +1,32 @@
+{
+  "name": "location-data-api",
+  "version": "1.0.0",
+  "description": "Cloudflare Worker API for Toot'n Totum Location Data Service",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "build": "tsc",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [
+    "cloudflare",
+    "worker",
+    "api",
+    "location-data"
+  ],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20241218.0",
+    "drizzle-kit": "^0.30.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.0.0",
+    "wrangler": "^3.0.0"
+  },
+  "dependencies": {
+    "better-auth": "^1.0.0",
+    "drizzle-orm": "^0.36.4",
+    "hono": "^4.6.0"
+  }
+}
