@@ -50,7 +50,7 @@ export default function DashboardPage() {
             </h1>
             <div className="flex items-center space-x-4">
               <span className="text-sm text-gray-600">
-                Welcome, {session.user.email}
+                Welcome, {session.user?.email || 'Admin'}
               </span>
               <Button 
                 variant="outline" 

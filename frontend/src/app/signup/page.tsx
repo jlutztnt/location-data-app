@@ -1,41 +1,16 @@
 'use client';
 
 import { useState } from 'react';
-import { authClient } from '@/lib/auth-client';
-import { useRouter } from 'next/navigation';
 
 export default function SignUpPage() {
   const [email, setEmail] = useState('jlutz@tootntotum.com');
   const [password, setPassword] = useState('password');
   const [name, setName] = useState('John Lutz');
   const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setError('');
-
-    try {
-      const result = await authClient.signUp.email({
-        email,
-        password,
-        name,
-      });
-
-      if (result.error) {
-        setError(result.error.message || 'Sign up failed');
-      } else {
-        console.log('✅ Admin user created successfully!', result);
-        router.push('/login');
-      }
-    } catch (err) {
-      console.error('Sign up error:', err);
-      setError('An unexpected error occurred');
-    } finally {
-      setLoading(false);
-    }
+    setError('Sign up is disabled. Admin accounts are created by system administrators.');
   };
 
   return (
@@ -98,10 +73,10 @@ export default function SignUpPage() {
 
             <button
               type="submit"
-              disabled={loading}
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
+              disabled={true}
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-400 hover:bg-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 disabled:opacity-50"
             >
-              {loading ? 'Creating Account...' : 'Create Admin Account'}
+              Sign Up Disabled
             </button>
           </form>
 

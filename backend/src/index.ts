@@ -28,27 +28,104 @@ app.get('/health', (c) => {
 	});
 });
 
-// Better Auth integration - mount the handler properly
-app.on(["POST", "GET"], "/api/auth/*", async (c) => {
+// Simple Auth endpoints
+import { createSimpleAuth } from './lib/simple-auth';
+
+app.post("/api/auth/sign-in/email", async (c) => {
 	try {
-		console.log('Auth route hit:', c.req.method, c.req.url);
-		console.log('Environment variables:', {
-			hasDB: !!c.env.DB,
-			hasSecret: !!c.env.BETTER_AUTH_SECRET,
-			hasURL: !!c.env.BETTER_AUTH_URL
+		console.log('Simple auth sign-in attempt');
+		
+		if (!c.env.BETTER_AUTH_SECRET) {
+			console.error('BETTER_AUTH_SECRET is not available in environment');
+			return c.json({ error: 'Server configuration error: Missing authentication secret' }, 500);
+		}
+		
+		const body = await c.req.json();
+		const { email, password } = body;
+		
+		if (!email || !password) {
+			return c.json({ error: 'Email and password are required' }, 400);
+		}
+		
+		const auth = createSimpleAuth(c.env.DB, c.env.BETTER_AUTH_SECRET);
+		const result = await auth.signIn(email, password);
+		
+		if (!result) {
+			return c.json({ error: 'Invalid credentials' }, 401);
+		}
+		
+		console.log('Sign-in successful for:', email);
+		
+		// Set session cookie
+		const response = c.json({ 
+			success: true, 
+			user: result.user,
+			message: 'Sign in successful'
 		});
 		
-		const auth = createAuth(c.env.DB, c.env.BETTER_AUTH_SECRET, c.env.BETTER_AUTH_URL);
-		console.log('Auth instance created successfully');
-		
-		const response = await auth.handler(c.req.raw);
-		console.log('Auth handler response:', response.status);
+		// Set HTTP-only cookie for session
+		response.headers.set('Set-Cookie', 
+			`session=${result.sessionToken}; HttpOnly; Secure; SameSite=None; Max-Age=${7 * 24 * 60 * 60}; Path=/`
+		);
 		
 		return response;
 	} catch (error) {
-		console.error('Auth handler error:', error);
+		console.error('Auth sign-in error:', error);
 		return c.json({ 
 			error: 'Authentication error', 
+			details: error instanceof Error ? error.message : 'Unknown error' 
+		}, 500);
+	}
+});
+
+app.post("/api/auth/sign-out", async (c) => {
+	try {
+		console.log('Sign-out request');
+		
+		const response = c.json({ success: true, message: 'Signed out successfully' });
+		
+		// Clear session cookie
+		response.headers.set('Set-Cookie', 
+			`session=; HttpOnly; Secure; SameSite=None; Max-Age=0; Path=/`
+		);
+		
+		return response;
+	} catch (error) {
+		console.error('Auth sign-out error:', error);
+		return c.json({ 
+			error: 'Sign out error', 
+			details: error instanceof Error ? error.message : 'Unknown error' 
+		}, 500);
+	}
+});
+
+app.get("/api/auth/session", async (c) => {
+	try {
+		console.log('Session check request');
+		
+		// For now, return a simple response
+		// In a full implementation, you'd verify the session cookie
+		return c.json({ user: null });
+	} catch (error) {
+		console.error('Auth session error:', error);
+		return c.json({ 
+			error: 'Session error', 
+			details: error instanceof Error ? error.message : 'Unknown error' 
+		}, 500);
+	}
+});
+
+app.get("/api/auth/get-session", async (c) => {
+	try {
+		console.log('Get session request');
+		
+		// For now, return a simple response
+		// In a full implementation, you'd verify the session cookie
+		return c.json({ user: null });
+	} catch (error) {
+		console.error('Auth get-session error:', error);
+		return c.json({ 
+			error: 'Session error', 
 			details: error instanceof Error ? error.message : 'Unknown error' 
 		}, 500);
 	}
