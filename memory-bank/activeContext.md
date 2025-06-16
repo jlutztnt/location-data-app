@@ -1,48 +1,40 @@
 # Active Context
 
 ## Current Focus
-✅ **AUTHENTICATION SYSTEM COMPLETE!** The challenging authentication setup is now fully functional and tested. Moving forward to implement location data management features.
+✅ **PRODUCTION DEPLOYMENT & CLEANUP COMPLETE!** The migration from Better Auth to the custom `SimpleAuth` system is finished, and the application has been successfully deployed to production. The next phase is to begin implementing the location data management features on the stable, production-ready platform.
 
 ## Recent Major Accomplishments
 
-### 🎉 **Full Authentication Flow Working**
-- ✅ **Database Setup**: Cloudflare D1 database created and migrated with all Better Auth tables
-- ✅ **User Creation**: Admin user creation script working (`jlutz@tootntotum.com`)
-- ✅ **Login System**: Email/password authentication fully functional
-- ✅ **Session Management**: Secure cookie-based sessions with proper CORS
-- ✅ **Dashboard Protection**: Protected routes working with automatic redirects
-- ✅ **UI Complete**: Professional login page and admin dashboard implemented
+### 🎉 **Successful Migration to `SimpleAuth`**
+- ✅ **Complete Better Auth Removal**: Uninstalled `better-auth` and all related dependencies from both frontend and backend.
+- ✅ **Custom Auth Implementation**: Created and integrated the `SimpleAuth` class, which uses the Web Crypto API for secure, session-based authentication.
+- ✅ **File Cleanup**: Removed all obsolete Better Auth files and updated all imports to use the new `SimpleAuth` system.
+- ✅ **User Creation**: The new `create-admin-simple.ts` script is working correctly.
+
+### 🚀 **Production Deployment**
+- ✅ **Cloudflare Worker**: The backend API is deployed and live at `https://location-data-api.jlutz.workers.dev/`.
+- ✅ **Vercel Frontend**: The Next.js frontend is deployed and live at `https://location-data-app.vercel.app`.
+- ✅ **Git Repository**: All cleanup and migration changes have been committed with descriptive messages.
+- ✅ **User Confirmation**: The user has confirmed that the deployed application "it works."
 
 ### 🔧 **Technical Implementation Details**
-- **Backend**: Hono framework with Better Auth integration on Cloudflare Workers
-- **Frontend**: Next.js with React hooks for session management
-- **Database**: Drizzle ORM with SQLite-compatible schema for D1
-- **Security**: Admin-only user creation, secure password hashing, session-based auth
-- **CORS**: Properly configured for cross-origin requests between frontend/backend
-
-### 🎨 **User Interface Completed**
-- **Login Page**: Clean, professional form with email/password fields
-- **Dashboard**: Beautiful admin interface with 6 management sections:
-  - Store Locations Management
-  - Districts Organization
-  - Store Managers Administration  
-  - Data Synchronization (Google My Business, CSV import)
-  - API Management
-  - System Status Monitoring
-- **Authentication Flow**: Login → Dashboard → Sign Out working perfectly
+- **Backend**: Hono framework on Cloudflare Workers with the custom `SimpleAuth` middleware.
+- **Frontend**: Next.js 15 with a custom React auth client (`auth-client.ts`).
+- **Database**: Drizzle ORM with a clean schema (no more Better Auth tables).
+- **Security**: Admin-only user creation, SHA-256 password hashing, and secure session management.
+- **CORS**: Properly configured for production domains.
 
 ## Key Technical Decisions Made
 
 ### **Authentication Architecture**
-- **Better Auth**: Chosen for robust, production-ready authentication
-- **Admin-Only Creation**: Public sign-up disabled for security
-- **Session Duration**: 7-day sessions with 1-day update age
-- **Trusted Origins**: Configured for `localhost:3000` and `127.0.0.1:8787`
+- **`SimpleAuth`**: Migrated from Better Auth to a lightweight, custom solution to resolve Cloudflare Workers compatibility issues and reduce dependencies.
+- **Admin-Only Creation**: Public sign-up remains disabled for security.
+- **Session Management**: Secure, cookie-based sessions handled by the custom implementation.
 
 ### **Database Design**
-- **Better Auth Tables**: `user`, `session`, `account`, `verification` (SQLite-compatible)
-- **Location Tables**: `locations`, `districts`, `managers`, `store_hours` with proper relations
-- **Migration Strategy**: Drizzle ORM with push-based migrations for D1
+- **Simplified Schema**: Removed the `account` and `verification` tables, as they are no longer needed. The schema now only includes `user`, `session`, and the application-specific tables.
+- **Location Tables**: `locations`, `districts`, `managers`, `store_hours` with proper relations.
+- **Migration Strategy**: Drizzle ORM with push-based migrations for D1.
 
 ### **API Architecture**
 - **Hono Framework**: Clean, Express-like routing for Cloudflare Workers
@@ -51,11 +43,11 @@
 - **CORS Middleware**: Proper cross-origin configuration
 
 ## Current System Status
-- 🟢 **Database**: Online and migrated
-- 🟢 **Backend API**: Running on localhost:8787
-- 🟢 **Frontend**: Running on localhost:3000
-- 🟢 **Authentication**: Fully functional
-- 🟢 **Admin User**: Created and tested (`jlutz@tootntotum.com`)
+- 🟢 **Production Backend**: Deployed and operational at `https://location-data-api.jlutz.workers.dev/`.
+- 🟢 **Production Frontend**: Deployed and operational at `https://location-data-app.vercel.app`.
+- 🟢 **Authentication**: Custom `SimpleAuth` system is fully functional in production.
+- 🟢 **Database**: Cloudflare D1 is online and contains production data.
+- 🟢 **Git**: Repository is clean and up-to-date.
 
 ## Next Steps (Location Data Features)
 
@@ -100,20 +92,26 @@
 - Proper loading states and error handling improve usability
 - Admin-only access ensures security while maintaining ease of use
 
-## Files Created/Modified in Authentication Implementation
+## Files Created/Modified in `SimpleAuth` Migration
 
 ### **Backend Files**
-- `backend/src/lib/auth.ts` - Better Auth configuration
-- `backend/src/index.ts` - Hono app with auth routes
-- `backend/src/db/schema.ts` - Complete database schema
-- `backend/scripts/create-admin-direct.ts` - Admin user creation
-- `backend/wrangler.toml` - Cloudflare Workers configuration
+- `backend/src/lib/simple-auth.ts` - The core custom authentication logic.
+- `backend/src/index.ts` - Hono app updated with `SimpleAuth` routes and middleware.
+- `backend/src/db/schema.ts` - Schema simplified after Better Auth removal.
+- `backend/scripts/create-admin-simple.ts` - New admin user creation script.
+- `backend/wrangler.toml` - Updated with production environment details.
 
 ### **Frontend Files**
-- `frontend/src/lib/auth-client.ts` - Better Auth React client
-- `frontend/src/app/api/auth/[...all]/route.ts` - Next.js auth API route
-- `frontend/src/app/login/page.tsx` - Login page component
-- `frontend/src/app/dashboard/page.tsx` - Protected dashboard
-- `frontend/src/app/signup/page.tsx` - Disabled signup page
+- `frontend/src/lib/auth-client.ts` - Custom React auth client for `SimpleAuth`.
+- `frontend/src/app/login/page.tsx` - Login page updated to use the new client.
+- `frontend/src/app/dashboard/page.tsx` - Dashboard protection logic updated.
 
-The authentication foundation is now rock-solid and ready for building the core location data management features!
+### **Removed Files**
+- `backend/src/lib/auth.ts`
+- `backend/scripts/create-admin.ts`
+- `backend/scripts/create-admin-direct.ts`
+- `backend/scripts/hash-password.ts`
+- `backend/scripts/create-jlutz-user.ts`
+- The entire `frontend/src/app/api/` directory.
+
+The technical foundation is solid, deployed, and ready for building the core location data management features!

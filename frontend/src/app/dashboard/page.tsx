@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useSession, signOut } from '@/lib/auth-client';
 
@@ -77,10 +78,11 @@ export default function DashboardPage() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Button className="w-full" disabled>
-                  Manage Locations
-                  <span className="ml-2 text-xs">(Coming Soon)</span>
-                </Button>
+                <Link href="/dashboard/locations" passHref>
+                  <Button className="w-full">
+                    Manage Locations
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
 

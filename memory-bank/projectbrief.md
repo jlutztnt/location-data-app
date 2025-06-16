@@ -9,7 +9,7 @@ This project is to create a centralized **Location Data Service** for Toot'n Tot
 *   **Backend:** A serverless application built on Cloudflare Workers.
 *   **Frontend:** A modern web application hosted on Vercel.
 *   **Database:** An internal Toot'n Totum database (DB1), accessed via Drizzle ORM.
-*   **Authentication:** User and API authentication managed by Better Auth.
+*   **Authentication:** A custom `SimpleAuth` system using the Web Crypto API.
 *   **UI:** A clean, accessible component library using shadcn/ui.
 
 ## Key Objectives

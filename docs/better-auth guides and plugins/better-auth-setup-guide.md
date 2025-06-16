@@ -35,16 +35,14 @@ Add the following variables to your `frontend/.env.local` file:
 DATABASE_URL="your_postgresql_connection_string"
 
 # Better Auth Configuration
-BETTER_AUTH_SECRET="generate_a_strong_random_secret_32_chars_or_more"
-BETTER_AUTH_URL="http://localhost:3000" # Base URL of your app during development
+JWT_SECRET="generate_a_strong_random_secret_32_chars_or_more"
 
 # Next.js Public Variable for Client-Side Auth Config
 NEXT_PUBLIC_APP_URL="http://localhost:3000" # Full public URL of your app
 ```
 **Important:**
 *   Replace placeholder values with your actual data.
-*   Generate a strong, unique secret for `BETTER_AUTH_SECRET` (e.g., using `openssl rand -base64 32` or a password manager).
-*   Adjust URLs for production environments.
+*   Generate a strong, unique secret for `JWT_SECRET` (e.g., using `openssl rand -base64 32` or a password manager).
 
 ## 4. Configure Better Auth Server Instance
 
@@ -68,7 +66,7 @@ export const auth = betterAuth({
                          // Can be temporarily set to 'false' for initial test user creation.
   },
 
-  // Better Auth automatically uses BETTER_AUTH_SECRET and BETTER_AUTH_URL
+  // Better Auth automatically uses JWT_SECRET
   // from environment variables.
   
   appName: "Your Application Name", // Optional: For display purposes (e.g., in emails if configured)

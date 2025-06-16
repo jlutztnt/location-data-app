@@ -14,7 +14,7 @@ Your `jlutz@tootntotum.com` account has been completely recreated with our custo
 ## 🔧 Technical Details
 
 - **Password Hash**: `3d77b7bc6101dced1944d4140f98b94396899c86d84517e93eee41a2ada0e1d4`
-- **Hash Method**: SHA-256(password + BETTER_AUTH_SECRET)
+- **Hash Method**: SHA-256(password + JWT_SECRET)
 - **Provider**: `credential`
 - **Email Verified**: `true`
 

@@ -72,12 +72,12 @@ npm install -D tailwindcss @types/node
 
 **Backend `.env`:**
 ```env
-BETTER_AUTH_SECRET=your-super-secret-64-character-hex-string-for-password-hashing
+JWT_SECRET=your-super-secret-64-character-hex-string-for-password-hashing
 ```
 
 **Frontend `.env.local`:**
 ```env
-BETTER_AUTH_SECRET=your-super-secret-64-character-hex-string-for-password-hashing
+JWT_SECRET=your-super-secret-64-character-hex-string-for-password-hashing
 NEXT_PUBLIC_API_URL=http://localhost:8787
 ```
 
@@ -87,10 +87,10 @@ NEXT_PUBLIC_API_URL=http://localhost:8787
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 
 # Set in Cloudflare Workers
-npx wrangler secret put BETTER_AUTH_SECRET
+npx wrangler secret put JWT_SECRET
 
 # Set in Vercel
-BETTER_AUTH_SECRET=your-64-character-hex-string
+JWT_SECRET=your-64-character-hex-string
 NEXT_PUBLIC_API_URL=https://your-worker-domain.workers.dev
 ```
 
@@ -251,8 +251,7 @@ export type DB = ReturnType<typeof createDB>;
 // Cloudflare Workers types
 export interface Env {
   DB: D1Database;
-  BETTER_AUTH_SECRET: string;
-  BETTER_AUTH_URL: string;
+  JWT_SECRET: string;
 }
 
 // Re-export D1Database type
@@ -469,7 +468,7 @@ app.get('/health', (c) => {
     timestamp: new Date().toISOString(),
     environment: env.ENVIRONMENT || 'development',
     database: !!env.DB,
-    auth_secret: !!env.BETTER_AUTH_SECRET,
+    auth_secret: !!env.JWT_SECRET,
   });
 });
 
@@ -484,7 +483,7 @@ app.post('/api/auth/sign-in/email', async (c) => {
       return c.json({ error: 'Email and password are required' }, 400);
     }
 
-    const auth = createSimpleAuth(c.env.DB, c.env.BETTER_AUTH_SECRET);
+    const auth = createSimpleAuth(c.env.DB, c.env.JWT_SECRET);
     const result = await auth.signIn(email, password);
 
     if (!result) {
@@ -1080,8 +1079,7 @@ npx wrangler d1 execute your-database-name --command "SELECT * FROM account;"
 1. **Environment Variables**:
    ```bash
    # Set production secrets
-   npx wrangler secret put BETTER_AUTH_SECRET
-   npx wrangler secret put BETTER_AUTH_URL
+   npx wrangler secret put JWT_SECRET
    ```
 
 2. **CORS Configuration**:
@@ -1201,7 +1199,7 @@ npx wrangler d1 execute your-db --remote --command "INSERT INTO account ..."
 ```
 
 #### 5. Environment Variable Issues
-**Problem**: `BETTER_AUTH_SECRET is not defined`
+**Problem**: `JWT_SECRET is not defined`
 
 **Solution**:
 ```bash
@@ -1209,7 +1207,7 @@ npx wrangler d1 execute your-db --remote --command "INSERT INTO account ..."
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 
 # Set in Cloudflare Workers
-npx wrangler secret put BETTER_AUTH_SECRET
+npx wrangler secret put JWT_SECRET
 
 # Set in Vercel
 # Add to environment variables in dashboard
@@ -1231,7 +1229,7 @@ npm uninstall better-auth
 
 4. **Recreate user accounts** with new password hash format
 
-5. **Update environment variables** to use BETTER_AUTH_SECRET for password hashing only
+5. **Update environment variables** to use JWT_SECRET for password hashing only
 
 ### Debug Commands
 

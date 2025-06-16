@@ -10,7 +10,7 @@ This document outlines the technologies, architecture, and development practices
 | **Backend** | Cloudflare Workers | Serverless functions for API logic. |
 | **Database** | Cloudflare D1 | A SQLite-based database, accessed via Drizzle ORM. |
 | **ORM** | Drizzle ORM | Provides type-safe database access. Configured for Cloudflare D1. |
-| **Authentication** | Better Auth | Manages user sessions and protects API endpoints. Will be adapted for Drizzle/D1. |
+| **Authentication** | `SimpleAuth` | A custom-built, lightweight authentication system using the Web Crypto API for hashing and session management. |
 | **UI/Styling** | shadcn/ui | Component library built on Radix UI and Tailwind CSS. |
 
 ## Development & Deployment
@@ -24,12 +24,12 @@ This document outlines the technologies, architecture, and development practices
 ## Architectural Notes
 
 *   **Frontend-Backend Separation:** The frontend is a distinct Next.js application that communicates with the backend via authenticated API calls.
-*   **Database Driver:** The system uses `drizzle-orm/d1` to connect the Cloudflare Worker to the D1 database. The Better Auth adapter will need to be configured for SQLite compatibility (`drizzleAdapter(db, { provider: "sqlite" })`), not PostgreSQL.
+*   **Database Driver:** The system uses `drizzle-orm/d1` to connect the Cloudflare Worker to the D1 database.
 *   **Authentication Flow:**
-    *   Better Auth is configured with public sign-ups disabled.
+    *   The `SimpleAuth` system has public sign-ups disabled by design.
     *   User accounts are intended to be created by an administrator.
     *   API routes are protected, requiring a valid token (JWT) for access.
-    *   The frontend uses a client-side instance of Better Auth to manage sessions and interact with protected routes.
+*   The frontend uses a custom auth client (`auth-client.ts`) to manage sessions and interact with protected routes.
 
 ## User Preferences & Ground Rules
 
@@ -39,29 +39,26 @@ This document outlines the technologies, architecture, and development practices
 
 ## Implementation Status ✅
 
-**Status: Authentication Foundation Complete**
+**Status: `SimpleAuth` Migration & Production Deployment Complete**
 
 ### Completed Implementation
-- ✅ **Project Scaffolding**: Frontend (Next.js) and backend (Cloudflare Workers) established
-- ✅ **Database Setup**: Cloudflare D1 database created and migrated with complete schema
-- ✅ **Authentication System**: Better Auth fully implemented and tested
-- ✅ **Hono Framework**: Clean API routing with proper error handling
-- ✅ **Admin Dashboard**: Professional UI with 6 management sections
-- ✅ **Development Environment**: Local servers running and tested
+- ✅ **Project Scaffolding**: Stable frontend and backend architecture.
+- ✅ **Database Setup**: Cloudflare D1 database is live and migrated.
+- ✅ **Authentication System**: Custom `SimpleAuth` system is implemented, tested, and deployed.
+- ✅ **Production Deployment**: Both frontend and backend are deployed and confirmed working.
 
 ### Technology Stack Implemented
-- **Frontend**: Next.js 15 with App Router, TypeScript, Tailwind CSS, shadcn/ui
-- **Backend**: Cloudflare Workers with Hono framework for routing
-- **Database**: Cloudflare D1 with Drizzle ORM (SQLite-compatible)
-- **Authentication**: Better Auth with admin-only user creation
-- **Development**: PowerShell-compatible commands, local development servers
+- **Frontend**: Next.js 15 with App Router, TypeScript, Tailwind CSS, shadcn/ui.
+- **Backend**: Cloudflare Workers with Hono framework for routing.
+- **Database**: Cloudflare D1 with Drizzle ORM.
+- **Authentication**: Custom `SimpleAuth` with admin-only user creation.
+- **Development**: PowerShell-compatible commands, local development servers.
 
 ### Key Technical Achievements
-- **Better Auth Integration**: Successfully configured for SQLite/D1 compatibility
-- **CORS Configuration**: Proper cross-origin setup for frontend/backend communication
-- **Session Management**: 7-day sessions with automatic redirects and protection
-- **Database Schema**: Complete schema with Better Auth + location data tables
-- **Admin User Creation**: Script-based admin user creation working
+- **`SimpleAuth` Migration**: Successfully replaced Better Auth with a lightweight, custom solution, removing dependencies and resolving compatibility issues.
+- **Production Deployment**: Deployed the full stack to Vercel and Cloudflare Workers.
+- **Session Management**: Implemented secure, cookie-based session management.
+- **Database Cleanup**: Simplified the database schema by removing unnecessary tables.
 
 ### Next Phase: Location Data Management
-Ready to implement CRUD operations for store locations, data import functionality, and public API endpoints.
+The project is now on a stable, production-ready foundation. The next step is to build the core location data management features.

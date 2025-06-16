@@ -1,11 +1,11 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { createDB } from './db';
-import type { Env } from './types';
+import type { Env, Variables } from './types';
 import locationRoutes from './routes/locations';
-import { createSimpleAuth } from './lib/simple-auth';
+import { SimpleAuth } from './lib/simple-auth';
 
-const app = new Hono<{ Bindings: Env }>();
+const app = new Hono<{ Bindings: Env, Variables: Variables }>();
 
 // Add CORS middleware
 app.use('*', cors({
@@ -28,15 +28,20 @@ app.get('/health', (c) => {
 	});
 });
 
+// Auth middleware
+const authMiddleware = async (c: any, next: any) => {
+  const auth = new SimpleAuth(c.env.DB, c.env.JWT_SECRET);
+  c.set('auth', auth);
+  await next();
+};
+
+// Apply auth middleware to all /api routes
+app.use('/api/*', authMiddleware);
+
 // Simple Auth endpoints
 app.post("/api/auth/sign-in/email", async (c) => {
 	try {
 		console.log('Simple auth sign-in attempt');
-		
-		if (!c.env.BETTER_AUTH_SECRET) {
-			console.error('BETTER_AUTH_SECRET is not available in environment');
-			return c.json({ error: 'Server configuration error: Missing authentication secret' }, 500);
-		}
 		
 		const body = await c.req.json();
 		const { email, password } = body;
@@ -45,7 +50,7 @@ app.post("/api/auth/sign-in/email", async (c) => {
 			return c.json({ error: 'Email and password are required' }, 400);
 		}
 		
-		const auth = createSimpleAuth(c.env.DB, c.env.BETTER_AUTH_SECRET);
+		const auth = c.get('auth');
 		const result = await auth.signIn(email, password);
 		
 		if (!result) {

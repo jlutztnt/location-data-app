@@ -38,6 +38,6 @@ Both accounts should now work perfectly with the authentication system!
 ## Technical Details
 
 - **Hash Algorithm**: SHA-256
-- **Salt**: BETTER_AUTH_SECRET environment variable
+- **Salt**: JWT_SECRET environment variable
 - **Format**: `SHA-256(password + secret)`
 - **Storage**: `account.password` field in database

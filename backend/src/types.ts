@@ -36,10 +36,15 @@ export interface ExecutionContext {
   passThroughOnException(): void;
 }
 
+import { SimpleAuth } from "./lib/simple-auth";
+
 // Environment interface
+export type Variables = {
+  auth: SimpleAuth;
+}
+
 export interface Env {
   DB: D1Database;
   ENVIRONMENT?: string;
-  BETTER_AUTH_SECRET?: string;
-  BETTER_AUTH_URL?: string;
+  JWT_SECRET?: string;
 }

@@ -603,7 +603,7 @@ meta: {
     Random value used by the library for encryption and generating hashes. **You can generate one using the button below** or you can use something like openssl.
 
     ```txt title=".env"
-    BETTER_AUTH_SECRET=
+    JWT_SECRET=
     ```
 
     <GenerateSecret />
@@ -6929,7 +6929,7 @@ Email & Password . Social Sign-in with Google . Passkeys . Email Verification . 
    ```txt
    GOOGLE_CLIENT_ID=
    GOOGLE_CLIENT_SECRET=
-   BETTER_AUTH_SECRET=
+   JWT_SECRET=
    ```
    //if you don't have these, you can get them from the google developer console. If you don't want to use google sign-in, you can remove the google config from the `auth.ts` file.
 
@@ -19934,7 +19934,7 @@ export const auth = betterAuth({
 
 By default, Better Auth will look for the following environment variables:
 
-* `process.env.BETTER_AUTH_SECRET`
+* `process.env.JWT_SECRET`
 * `process.env.AUTH_SECRET`
 
 If none of these environment variables are set, it will default to `"better-auth-secret-123456789"`. In production, if it's not set, it will throw an error.

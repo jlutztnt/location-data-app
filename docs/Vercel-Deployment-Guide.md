@@ -24,8 +24,7 @@
 Add these environment variables in the Vercel dashboard:
 
 ```env
-BETTER_AUTH_SECRET=2e69abaa8c76ecb15c8a7cad203c710c90fd5504b10d0a0f95b46179cd834705
-BETTER_AUTH_URL=https://your-vercel-app-domain.vercel.app
+JWT_SECRET=2e69abaa8c76ecb15c8a7cad203c710c90fd5504b10d0a0f95b46179cd834705
 BACKEND_URL=http://localhost:8787
 NODE_ENV=production
 ```
@@ -33,7 +32,7 @@ NODE_ENV=production
 **Important Notes**:
 - Replace `your-vercel-app-domain.vercel.app` with your actual Vercel domain
 - You'll update `BACKEND_URL` to your Cloudflare Workers URL after backend deployment
-- The `BETTER_AUTH_SECRET` above is the one generated for this project
+- The `JWT_SECRET` above is the one generated for this project
 
 ### 4. Deploy
 
@@ -151,8 +150,7 @@ Once you deploy the Cloudflare Workers backend:
    - Check build logs for specific errors
 
 2. **Authentication not working**:
-   - Verify `BETTER_AUTH_URL` matches your Vercel domain
-   - Check that `BETTER_AUTH_SECRET` is set correctly
+   - Check that `JWT_SECRET` is set correctly
    - Ensure backend CORS allows your frontend domain
 
 3. **API calls failing**:

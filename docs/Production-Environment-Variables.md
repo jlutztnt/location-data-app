@@ -11,16 +11,14 @@ Go to your Vercel dashboard → Project Settings → Environment Variables and u
 
 ### Current Values (Development)
 ```
-BETTER_AUTH_SECRET=2e69abaa8c76ecb15c8a7cad203c710c90fd5504b10d0a0f95b46179cd834705
-BETTER_AUTH_URL=http://localhost:3000
+JWT_SECRET=2e69abaa8c76ecb15c8a7cad203c710c90fd5504b10d0a0f95b46179cd834705
 BACKEND_URL=http://localhost:8787
 NODE_ENV=development
 ```
 
 ### New Production Values
 ```
-BETTER_AUTH_SECRET=2e69abaa8c76ecb15c8a7cad203c710c90fd5504b10d0a0f95b46179cd834705
-BETTER_AUTH_URL=https://location-data-app.vercel.app
+JWT_SECRET=2e69abaa8c76ecb15c8a7cad203c710c90fd5504b10d0a0f95b46179cd834705
 NEXT_PUBLIC_BACKEND_URL=https://location-data-api.jlutz.workers.dev
 NODE_ENV=production
 ```
@@ -34,7 +32,7 @@ NODE_ENV=production
    - `BETTER_AUTH_URL`: Change to `https://location-data-app.vercel.app`
    - `BACKEND_URL`: Change to `https://location-data-api.jlutz.workers.dev`
    - `NODE_ENV`: Change to `production`
-   - Keep `BETTER_AUTH_SECRET` the same
+   - Keep `JWT_SECRET` the same
 5. **Redeploy** the frontend to pick up the new environment variables
 
 ## 🧪 Testing After Update
@@ -57,7 +55,7 @@ Once you update the environment variables and redeploy:
 - ✅ **Frontend**: Deployed to Vercel at https://location-data-app.vercel.app
 - ✅ **Backend**: Deployed to Cloudflare Workers at https://location-data-api.jlutz.workers.dev
 - ✅ **Database**: Cloudflare D1 database connected and migrated
-- ✅ **Secrets**: BETTER_AUTH_SECRET configured in Cloudflare Workers
+- ✅ **Secrets**: JWT_SECRET configured in Cloudflare Workers
 - ⏳ **Environment Variables**: Need to be updated in Vercel (next step)
 
 Your application will be fully functional once the Vercel environment variables are updated!

@@ -24,7 +24,7 @@ graph TD
 
     subgraph "Backend (Cloudflare Workers)"
         E[API Endpoints]
-        F[Authentication Middleware]
+        F[SimpleAuth Middleware]
         G[GMB Sync Logic]
         H[Drizzle ORM]
     end
@@ -70,7 +70,7 @@ graph TD
 ### 4. Gated Access via Authentication
 
 *   **Pattern:**
-    *   The admin dashboard and its corresponding API endpoints are protected by Better Auth. Users must log in to access them.
+    *   The admin dashboard and its corresponding API endpoints are protected by the custom `SimpleAuth` middleware. Users must log in to access them.
     *   API access for internal systems is secured via tokens (JWT, API Keys).
     *   The public website consumes non-sensitive data from public-facing, read-only API endpoints.
 *   **Rationale:** Enforces strict security and role-based access control, ensuring that data can only be viewed or modified by authorized users and systems.
@@ -85,10 +85,10 @@ graph TD
 
 ## Implemented Authentication Patterns ✅
 
-### Better Auth Integration Pattern
-*   **Implementation:** Better Auth with Drizzle ORM adapter for SQLite/D1 compatibility
-*   **Configuration:** Admin-only user creation, 7-day sessions, trusted origins for CORS
-*   **Security:** Secure password hashing, session-based authentication, automatic redirects
+### `SimpleAuth` Integration Pattern
+*   **Implementation:** A custom `SimpleAuth` class using the Web Crypto API for SHA-256 hashing and secure session management.
+*   **Configuration:** Admin-only user creation, secure cookie-based sessions.
+*   **Security:** SHA-256 password hashing, and secure session management.
 
 ### Frontend Authentication Flow
 ```
@@ -101,6 +101,6 @@ User Request → Session Check → Redirect to Login (if needed) → Authenticat
 *   **CORS Configuration:** Proper cross-origin setup for frontend/backend communication
 
 ### Database Schema Pattern
-*   **Better Auth Tables:** `user`, `session`, `account`, `verification` (SQLite-compatible)
+*   **Simplified Schema:** The `user` and `session` tables are used for authentication. The `account` and `verification` tables were removed.
 *   **Location Tables:** `locations`, `districts`, `managers`, `store_hours` with proper relations
 *   **Migration Strategy:** Drizzle ORM push-based migrations for D1 database

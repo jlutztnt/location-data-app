@@ -15,8 +15,7 @@ The error `POST http://localhost:8787/api/auth/sign-in/email net::ERR_CONNECTION
 
 | Variable Name | Required Value |
 |---------------|----------------|
-| `BETTER_AUTH_SECRET` | `2e69abaa8c76ecb15c8a7cad203c710c90fd5504b10d0a0f95b46179cd834705` |
-| `BETTER_AUTH_URL` | `https://location-data-app.vercel.app` |
+| `JWT_SECRET` | `2e69abaa8c76ecb15c8a7cad203c710c90fd5504b10d0a0f95b46179cd834705` |
 | `NEXT_PUBLIC_BACKEND_URL` | `https://location-data-api.jlutz.workers.dev` |
 | `NODE_ENV` | `production` |
 
