@@ -7,7 +7,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "./ui/table";
 import { useEffect, useState } from "react";
 import { getSession } from "@/lib/auth-client";
 
