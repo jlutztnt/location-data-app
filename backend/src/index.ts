@@ -1,9 +1,9 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
-import { createAuth } from './lib/auth';
 import { createDB } from './db';
 import type { Env } from './types';
 import locationRoutes from './routes/locations';
+import { createSimpleAuth } from './lib/simple-auth';
 
 const app = new Hono<{ Bindings: Env }>();
 
@@ -29,8 +29,6 @@ app.get('/health', (c) => {
 });
 
 // Simple Auth endpoints
-import { createSimpleAuth } from './lib/simple-auth';
-
 app.post("/api/auth/sign-in/email", async (c) => {
 	try {
 		console.log('Simple auth sign-in attempt');
