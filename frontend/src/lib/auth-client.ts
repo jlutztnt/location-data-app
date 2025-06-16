@@ -1,9 +1,7 @@
 import { createAuthClient } from "better-auth/react";
 
 export const authClient = createAuthClient({
-  baseURL: process.env.NODE_ENV === 'production' 
-    ? 'https://your-backend-domain.workers.dev' 
-    : 'http://localhost:8787',
+  baseURL: process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:8787',
   
   // Optional: Configure fetch options
   fetchOptions: {
