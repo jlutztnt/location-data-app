@@ -9,7 +9,7 @@ const app = new Hono<{ Bindings: Env }>();
 
 // Add CORS middleware
 app.use('*', cors({
-	origin: ['http://localhost:3000', 'https://your-frontend-domain.vercel.app'],
+	origin: ['http://localhost:3000', 'https://location-data-app.vercel.app'],
 	credentials: true,
 }));
 
