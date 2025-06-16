@@ -19,7 +19,7 @@ export default function LocationsPage() {
         <CardHeader>
           <CardTitle>Locations</CardTitle>
           <CardDescription>
-            A list of all Toot'n Totum store locations.
+            A list of all Toot&apos;n Totum store locations.
           </CardDescription>
         </CardHeader>
         <CardContent>
